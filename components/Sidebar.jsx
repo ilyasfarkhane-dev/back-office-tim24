@@ -26,7 +26,7 @@ const navigation = [
     icon: UsersIcon,
     current: false,
     subItems: [
-      { name: "Speakers", href: "/speakers" },
+      { name: "Speakers", href: "/speackers" },
       { name: "Chair", href: "/chair" },
       { name: "Co-Chair", href: "/co-chair" },
       { name: "Sponsorship", href: "/sponsorship" },
