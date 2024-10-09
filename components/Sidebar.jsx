@@ -66,7 +66,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Button to open sidebar */}
-      <button className="p-2 lg:hidden" onClick={() => setSidebarOpen(true)}>
+      <button className="p-8 lg:hidden" onClick={() => setSidebarOpen(true)}>
         <Bars3Icon className="h-6 w-6 text-gray-600" aria-hidden="true" />
       </button>
 
