@@ -57,7 +57,7 @@ function classNames(...classes) {
 
 export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [openSubMenu, setOpenSubMenu] = useState({}); // Track which submenu is open
+  const [openSubMenu, setOpenSubMenu] = useState({});
 
   const toggleSubMenu = (name) => {
     setOpenSubMenu((prev) => ({ ...prev, [name]: !prev[name] }));
@@ -65,6 +65,11 @@ export default function Sidebar() {
 
   return (
     <>
+      {/* Button to open sidebar */}
+      <button className="p-2 lg:hidden" onClick={() => setSidebarOpen(true)}>
+        <Bars3Icon className="h-6 w-6 text-gray-600" aria-hidden="true" />
+      </button>
+
       {/* Mobile Sidebar */}
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
