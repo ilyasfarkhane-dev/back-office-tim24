@@ -95,59 +95,65 @@ export default function CommitteeTable() {
       </button>
 
       <div className="shadow-lg rounded-lg overflow-hidden">
-        <table className="min-w-full table-auto bg-white">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="py-4 px-6 text-left text-sm font-medium text-gray-500">
-                Image
-              </th>
-              <th className="py-4 px-6 text-left text-sm font-medium text-gray-500">
-                Name
-              </th>
-              <th className="py-4 px-6 text-left text-sm font-medium text-gray-500">
-                Affiliation
-              </th>
-              <th className="py-4 px-6 text-left text-sm font-medium text-gray-500">
-                About
-              </th>
-              <th className="py-4 px-6 text-left text-sm font-medium text-gray-500">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item) => (
-              <tr key={item.id} className="border-b last:border-none">
-                <td className="py-4 px-6">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className="h-12 w-auto rounded-full object-cover shadow-md"
-                  />
-                </td>
-                <td className="py-4 px-6">
-                  <p className="font-semibold text-gray-800">{item.name}</p>
-                </td>
-                <td className="py-4 px-6 text-gray-600">{item.affiliation}</td>
-                <td className="py-4 px-6 text-gray-600">{item.about}</td>
-                <td className="py-4 px-6 flex space-x-4">
-                  <button
-                    className="text-blue-500 hover:text-blue-600 transition"
-                    onClick={() => openEditModal(item)}
-                  >
-                    <SquarePen className="h-5 w-5" aria-hidden="true" />
-                  </button>
-                  <button
-                    className="text-red-500 hover:text-red-600 transition"
-                    onClick={() => handleDelete(item.id)}
-                  >
-                    <Trash2 className="h-5 w-5" aria-hidden="true" />
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto bg-white">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="py-4 px-6 text-left text-sm font-medium text-gray-500">
+                  Image
+                </th>
+                <th className="py-4 px-6 text-left text-sm font-medium text-gray-500">
+                  Name
+                </th>
+                <th className="py-4 px-6 text-left text-sm font-medium text-gray-500 hidden md:table-cell">
+                  Affiliation
+                </th>
+                <th className="py-4 px-6 text-left text-sm font-medium text-gray-500 hidden md:table-cell">
+                  About
+                </th>
+                <th className="py-4 px-6 text-left text-sm font-medium text-gray-500">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.map((item) => (
+                <tr key={item.id} className="border-b last:border-none">
+                  <td className="py-4 px-6">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      className="h-12 w-auto rounded-full object-cover shadow-md"
+                    />
+                  </td>
+                  <td className="py-4 px-6">
+                    <p className="font-semibold text-gray-800">{item.name}</p>
+                  </td>
+                  <td className="py-4 px-6 text-gray-600 hidden md:table-cell">
+                    {item.affiliation}
+                  </td>
+                  <td className="py-4 px-6 text-gray-600 hidden md:table-cell">
+                    {item.about}
+                  </td>
+                  <td className="py-4 px-6 flex space-x-4">
+                    <button
+                      className="text-blue-500 hover:text-blue-600 transition"
+                      onClick={() => openEditModal(item)}
+                    >
+                      <SquarePen className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                    <button
+                      className="text-red-500 hover:text-red-600 transition"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      <Trash2 className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Modal for Adding Speaker */}
