@@ -10,12 +10,10 @@ import {
   HomeIcon,
   UsersIcon,
   CalendarIcon,
-  ChartPieIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Conference info", href: "/", icon: HomeIcon, current: true },
+  { name: "Conference Info", href: "/", icon: HomeIcon, current: true },
   {
     name: "Participation Process",
     href: "/participation-process",
@@ -27,14 +25,13 @@ const navigation = [
     name: "Committee",
     icon: UsersIcon,
     current: false,
-
     subItems: [
-      { name: "Speackers", href: "/speackers" },
+      { name: "Speakers", href: "/speakers" },
       { name: "Chair", href: "/chair" },
       { name: "Co-Chair", href: "/co-chair" },
       { name: "Sponsorship", href: "/sponsorship" },
       { name: "Web Chairs", href: "/web-chairs" },
-      { name: "Publicity & Communication ", href: "/publicity-communication" },
+      { name: "Publicity & Communication", href: "/publicity-communication" },
       { name: "Registration Chairs", href: "/registration-chairs" },
       { name: "Publication Chairs", href: "/publication-chairs" },
       { name: "Speakers Session Chairs", href: "/speakers-session-chairs" },
@@ -54,19 +51,17 @@ const navigation = [
   },
 ];
 
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false); // State to manage sub-menu visibility
+  const [openSubMenu, setOpenSubMenu] = useState({}); // Track which submenu is open
+
+  const toggleSubMenu = (name) => {
+    setOpenSubMenu((prev) => ({ ...prev, [name]: !prev[name] }));
+  };
 
   return (
     <>
@@ -100,8 +95,8 @@ export default function Sidebar() {
               leaveTo="-translate-x-full"
             >
               <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
-                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
-                  <div className="flex h-16 shrink-0 items-center">
+                <div className="flex grow flex-col bg-gray-900 text-gray-300 p-4">
+                  <div className="flex h-16 items-center">
                     <img
                       className="h-8 w-auto"
                       src="/assets/img/logo.png"
@@ -109,57 +104,49 @@ export default function Sidebar() {
                     />
                   </div>
                   <nav className="flex flex-1 flex-col">
-                    <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                      <li>
-                        <ul role="list" className="-mx-2 space-y-1">
-                          {navigation.map((item) => (
-                            <li key={item.name}>
-                              <a
-                                href={item.href}
-                                className={classNames(
-                                  item.current
-                                    ? "bg-gray-800 text-white"
-                                    : "text-gray-400 hover:text-white hover:bg-gray-800",
-                                  "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold cursor-pointer"
-                                )}
-                                onClick={() =>
-                                  item.subItems
-                                    ? setIsSubMenuOpen(!isSubMenuOpen)
-                                    : null
-                                }
-                              >
-                                <item.icon
-                                  className="h-6 w-6 shrink-0"
-                                  aria-hidden="true"
-                                />
-                                {item.name}
-                              </a>
-                              {item.subItems && isSubMenuOpen && (
-                                <ul className="ml-4 mt-2 space-y-1">
-                                  {item.subItems.map((subItem) => (
-                                    <li key={subItem.name}>
-                                      <a
-                                        href={subItem.href}
-                                        className="text-gray-400 hover:text-white hover:bg-gray-800 rounded-md p-2 text-sm"
-                                      >
-                                        {subItem.name}
-                                      </a>
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-
+                    <ul role="list" className="flex flex-col gap-y-2">
+                      {navigation.map((item) => (
+                        <li key={item.name}>
+                          <a
+                            href={item.href}
+                            className={classNames(
+                              item.current
+                                ? "bg-gray-800 text-white"
+                                : "text-gray-400 hover:text-white hover:bg-gray-800",
+                              "flex items-center gap-x-2 rounded-md p-2 text-sm font-semibold cursor-pointer"
+                            )}
+                            onClick={
+                              item.subItems
+                                ? () => toggleSubMenu(item.name)
+                                : null
+                            }
+                          >
+                            <item.icon className="h-6 w-6" aria-hidden="true" />
+                            {item.name}
+                          </a>
+                          {item.subItems && openSubMenu[item.name] && (
+                            <ul className="ml-4 mt-1 space-y-1">
+                              {item.subItems.map((subItem) => (
+                                <li key={subItem.name}>
+                                  <a
+                                    href={subItem.href}
+                                    className="block text-gray-400 hover:text-white hover:bg-gray-800 rounded-md p-1 text-sm"
+                                  >
+                                    {subItem.name}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ))}
                       <li className="mt-auto">
                         <a
                           href="#"
-                          className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
+                          className="flex items-center gap-x-2 rounded-md p-2 text-sm font-semibold text-gray-400 hover:bg-gray-800 hover:text-white"
                         >
                           <Cog6ToothIcon
-                            className="h-6 w-6 shrink-0"
+                            className="h-6 w-6"
                             aria-hidden="true"
                           />
                           Settings
@@ -175,9 +162,9 @@ export default function Sidebar() {
       </Transition.Root>
 
       {/* Desktop Sidebar */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
-          <div className="flex h-16 shrink-0 items-center">
+      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72">
+        <div className="flex flex-col bg-gray-900 text-gray-300 p-4 h-full">
+          <div className="flex h-16 items-center">
             <img
               className="h-14 w-auto"
               src="/assets/img/logo.png"
@@ -185,59 +172,46 @@ export default function Sidebar() {
             />
           </div>
           <nav className="flex flex-1 flex-col">
-            <ul role="list" className="flex flex-1 flex-col gap-y-7">
-              <li>
-                <ul role="list" className="-mx-2 space-y-1">
-                  {navigation.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? "bg-gray-800 text-white"
-                            : "text-gray-400 hover:text-white hover:bg-gray-800",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                        )}
-                        onClick={() =>
-                          item.subItems
-                            ? setIsSubMenuOpen(!isSubMenuOpen)
-                            : null
-                        }
-                      >
-                        <item.icon
-                          className="h-6 w-6 shrink-0"
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </a>
-                      {item.subItems && isSubMenuOpen && (
-                        <ul className="ml-4 mt-2 space-y-1">
-                          {item.subItems.map((subItem) => (
-                            <li key={subItem.name}>
-                              <a
-                                href={subItem.href}
-                                className="text-gray-400 hover:text-white hover:bg-gray-800 rounded-md p-2 text-sm"
-                              >
-                                {subItem.name}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </li>
-
+            <ul role="list" className="flex flex-col gap-y-2">
+              {navigation.map((item) => (
+                <li key={item.name}>
+                  <a
+                    href={item.href}
+                    className={classNames(
+                      item.current
+                        ? "bg-gray-800 text-white"
+                        : "text-gray-400 hover:text-white hover:bg-gray-800",
+                      "flex items-center gap-x-2 rounded-md p-2 text-sm font-semibold cursor-pointer"
+                    )}
+                    onClick={
+                      item.subItems ? () => toggleSubMenu(item.name) : null
+                    }
+                  >
+                    <item.icon className="h-6 w-6" aria-hidden="true" />
+                    {item.name}
+                  </a>
+                  {item.subItems && openSubMenu[item.name] && (
+                    <ul className="ml-4 mt-1 space-y-1">
+                      {item.subItems.map((subItem) => (
+                        <li key={subItem.name}>
+                          <a
+                            href={subItem.href}
+                            className="block text-gray-400 hover:text-white hover:bg-gray-800 rounded-md p-1 text-sm"
+                          >
+                            {subItem.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
               <li className="mt-auto">
                 <a
                   href="#"
-                  className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
+                  className="flex items-center gap-x-2 rounded-md p-2 text-sm font-semibold text-gray-400 hover:bg-gray-800 hover:text-white"
                 >
-                  <Cog6ToothIcon
-                    className="h-6 w-6 shrink-0"
-                    aria-hidden="true"
-                  />
+                  <Cog6ToothIcon className="h-6 w-6" aria-hidden="true" />
                   Settings
                 </a>
               </li>
