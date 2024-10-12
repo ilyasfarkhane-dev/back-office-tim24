@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
+import SignIn from "@/components/Sign-in"; // Import the SignIn component
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,17 +29,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isAuthenticated = false; // Replace with your authentication logic
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Sidebar />
-
-        {/* Main content */}
-        <main className="py-10 lg:pl-72">
-          <div className="px-4 sm:px-6 lg:px-8">{children}</div>
-        </main>
+        {isAuthenticated ? (
+          <>
+            <Sidebar />
+            {/* Main content */}
+            <main className="py-10 lg:pl-72">
+              <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+            </main>
+          </>
+        ) : (
+          <SignIn /> // Render the sign-in page if not authenticated
+        )}
       </body>
     </html>
   );
